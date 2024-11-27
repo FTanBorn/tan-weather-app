@@ -1,13 +1,30 @@
+// src/app/detail/page.tsx
 'use client'
 
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import { Container, Grid, Box, CircularProgress } from '@mui/material'
-import { CurrentDayResponse, getCurrentDayWeather, getForecastWeather } from '@/services/weather'
 import { ForecastCard } from '@/components/ui/client-side/detail/components/ForecastCard'
 import { TodayCard } from '@/components/ui/client-side/detail/components/TodayCard'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { getCurrentDayWeather, getForecastWeather } from '@/services/weather'
+import type { CurrentDayResponse, ForecastResponse } from '@/services/weather'
 
 export default function DetailPage() {
+  return (
+    <Suspense
+      fallback={
+        <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <DetailContent />
+    </Suspense>
+  )
+}
+
+function DetailContent() {
   const searchParams = useSearchParams()
   const [currentDay, setCurrentDay] = useState<CurrentDayResponse | null>(null)
   const [forecast, setForecast] = useState<ForecastResponse | null>(null)
