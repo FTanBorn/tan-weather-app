@@ -1,8 +1,7 @@
-// src/components/weather/ForecastCard.tsx
+// components/ForecastCard.tsx
 import { Card, CardContent, Typography, Box, useTheme, Grid } from '@mui/material'
 import { WeatherIcon } from './WeatherIcon'
 import { WaterDrop, Air } from '@mui/icons-material'
-import { getWeatherColors } from '@/types/weather'
 
 interface ForecastCardProps {
   forecast: {
@@ -10,14 +9,9 @@ interface ForecastCardProps {
     day: {
       maxtemp_c: number
       mintemp_c: number
-      avgtemp_c: number
-      avghumidity: number
-      maxwind_kph: number
       condition: {
         text: string
-        icon: string
       }
-      daily_chance_of_rain: number
     }
   }
   index: number
@@ -25,7 +19,6 @@ interface ForecastCardProps {
 
 export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
   const theme = useTheme()
-  const colors = getWeatherColors(theme.palette.mode === 'dark')
   const isNightTime = new Date().getHours() >= 18 || new Date().getHours() < 6
 
   return (
@@ -58,7 +51,7 @@ export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
     >
       <CardContent sx={{ p: 2 }}>
         <Grid container alignItems='center' spacing={2}>
-          {/* Sol Taraf - Tarih */}
+          {/* Tarih */}
           <Grid item xs={3}>
             <Typography sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
               {new Date(forecast.date).toLocaleDateString('tr-TR', {
@@ -73,7 +66,7 @@ export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
             </Typography>
           </Grid>
 
-          {/* İkon ve Durum */}
+          {/* Hava durumu ikonu */}
           <Grid item xs={3} sx={{ textAlign: 'center' }}>
             <WeatherIcon condition={forecast.day.condition.text} isNight={isNightTime} size={40} />
           </Grid>
@@ -88,22 +81,11 @@ export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
             </Box>
           </Grid>
 
-          {/* Nem ve Rüzgar */}
+          {/* Durum */}
           <Grid item xs={3}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, whiteSpace: 'nowrap' }}>
-                <WaterDrop sx={{ fontSize: 16, color: 'primary.main' }} />
-                <Typography variant='caption' sx={{ minWidth: '45px' }}>
-                  {forecast.day.avghumidity}%
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, whiteSpace: 'nowrap' }}>
-                <Air sx={{ fontSize: 16, color: 'info.main' }} />
-                <Typography variant='caption' sx={{ minWidth: '45px' }}>
-                  {Math.round(forecast.day.maxwind_kph)}km/s
-                </Typography>
-              </Box>
-            </Box>
+            <Typography variant='caption' sx={{ display: 'block', textAlign: 'center' }}>
+              {forecast.day.condition.text}
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>

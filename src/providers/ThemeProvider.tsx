@@ -13,14 +13,14 @@ const THEME_MODE_KEY = 'themeMode'
 
 const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
-  mode: 'dark'
+  mode: 'light'
 })
 
 export const useTheme = () => useContext(ThemeContext)
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialize with default value
-  const [mode, setMode] = useState<'light' | 'dark'>('dark')
+  const [mode, setMode] = useState<'light' | 'dark'>('light')
 
   // Move localStorage logic to useEffect
   useEffect(() => {

@@ -7,7 +7,7 @@ import ThemeProvider from '@/providers/ThemeProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'My World'
+  title: 'TanWeather'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

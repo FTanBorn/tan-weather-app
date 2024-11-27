@@ -1,7 +1,7 @@
 // src/services/locationiq.ts
 import { Location, LocationType } from '@/types/geonames'
 
-const LOCATIONIQ_API_KEY = 'pk.e05657ce0c4f91734524f894ce1982e9'
+const LOCATIONIQ_API_KEY = process.env.NEXT_PUBLIC_GEONAMES_KEY
 const BASE_URL = 'https://api.locationiq.com/v1'
 
 const ALLOWED_TYPES: LocationType[] = ['country', 'state', 'town']
@@ -28,14 +28,14 @@ export const searchLocations = async (query: string): Promise<Location[]> => {
   if (!query || query.length < 2) return []
 
   const params = new URLSearchParams({
-    key: LOCATIONIQ_API_KEY,
+    key: process.env.NEXT_PUBLIC_GEONAMES_KEY,
     q: query,
     format: 'json',
     limit: '10',
     'accept-language': 'tr',
-    addressdetails: '1', // Detaylı adres bilgisi için
-    normalizecity: '1', // Şehir isimlerini normalize et
-    dedupe: '1' // Tekrarlanan sonuçları kaldır
+    addressdetails: '1',
+    normalizecity: '1',
+    dedupe: '1'
   })
 
   try {

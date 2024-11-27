@@ -19,18 +19,6 @@ const Header = () => {
   const { toggleTheme, mode } = useTheme()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
-  const pages: Page[] = [
-    { name: 'Ben Kimim ? CV', link: '/' },
-    { name: 'Hizmetler', link: '/' }
-  ]
-
-  const handleLocationSelect = (location: Location | null) => {
-    if (location) {
-      console.log('Seçilen konum:', location)
-      // Burada seçilen konumla istediğiniz işlemi yapabilirsiniz
-    }
-  }
-
   return (
     <AppBar
       position='sticky'
@@ -38,7 +26,7 @@ const Header = () => {
       sx={{
         bgcolor: 'background.paper',
         borderBottom: 1,
-        borderColor: (theme:any) => alpha(theme.palette.divider, 0.1)
+        borderColor: (theme: any) => alpha(theme.palette.divider, 0.1)
       }}
     >
       <Container maxWidth='xl'>
@@ -53,14 +41,18 @@ const Header = () => {
           <Stack direction={'row'} alignItems={'center'}>
             <Typography
               noWrap
+              component={Link}
+              href={'/'}
               sx={{
-                mr: 1,
-                fontWeight: 600,
+                fontWeight: 900,
                 fontSize: {
-                  xs: 10,
-                  sm: 20
+                  xs: 12,
+                  sm: 24
                 },
-                color: 'text.primary'
+                color: 'text.primary',
+                letterSpacing: 1.2,
+                textTransform: 'uppercase',
+                fontFamily: "'Roboto', sans-serif"
               }}
             >
               TanWeather
@@ -73,29 +65,14 @@ const Header = () => {
               width: '100%',
               maxWidth: 400,
               mx: 2,
-              display: { xs: 'none', md: 'block' } // Mobile'da gizle
+              display: { xs: 'block', md: 'block' } // Mobile'da gizle
             }}
           >
-            <LocationSearch onLocationSelect={handleLocationSelect} />
+            <LocationSearch />
           </Box>
 
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, alignItems: 'center' }}>
-            {pages.map(page => (
-              <Button
-                key={page.name}
-                component={Link}
-                href={page.link}
-                sx={{
-                  color: 'text.primary',
-                  '&:hover': {
-                    color: 'primary.main'
-                  }
-                }}
-              >
-                {page.name}
-              </Button>
-            ))}
             <IconButton onClick={toggleTheme} color='default'>
               {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
@@ -128,31 +105,8 @@ const Header = () => {
                   <Box sx={{ p: 1 }}>
                     {/* Mobile'da arama kutusu */}
                     <Box sx={{ mb: 2 }}>
-                      <LocationSearch onLocationSelect={handleLocationSelect} />
+                      <LocationSearch />
                     </Box>
-                    {pages.map(page => (
-                      <Button
-                        key={page.name}
-                        fullWidth
-                        component={Link}
-                        href={page.link}
-                        onClick={() => setShowMobileMenu(false)}
-                        sx={{
-                          justifyContent: 'flex-start',
-                          px: 2,
-                          py: 1,
-                          my: 0.5,
-                          borderRadius: 1,
-                          color: 'text.primary',
-                          '&:hover': {
-                            bgcolor: 'action.hover',
-                            color: 'primary.main'
-                          }
-                        }}
-                      >
-                        {page.name}
-                      </Button>
-                    ))}
                     <Button
                       fullWidth
                       onClick={toggleTheme}

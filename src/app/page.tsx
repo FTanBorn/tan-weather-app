@@ -1,3 +1,36 @@
-export default function Home() {
-  return <></>
+'use client'
+
+import { Container } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { TodayCard } from '@/components/ui/client-side/detail/components/TodayCard'
+import { getCurrentDayWeather } from '@/services/weather'
+import type { CurrentDayResponse } from '@/services/weather'
+
+export default function HomePage() {
+  const [weatherData, setWeatherData] = useState<CurrentDayResponse | null>(null)
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const ipRes = await fetch('http://ip-api.com/json/')
+        const ipData = await ipRes.json()
+        const weather = await getCurrentDayWeather(ipData.lat, ipData.lon)
+        setWeatherData(weather)
+        debugger
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    }
+    getData()
+  }, [])
+
+  return (
+    <main>
+      <Container maxWidth='xl' sx={{ py: 4 }}>
+        {weatherData && (
+          <TodayCard current={weatherData.current} location={weatherData.location} forecast={weatherData.forecast} />
+        )}
+      </Container>
+    </main>
+  )
 }

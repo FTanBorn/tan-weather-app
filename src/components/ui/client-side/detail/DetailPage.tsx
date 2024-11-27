@@ -24,6 +24,7 @@ export default function DetailPage() {
       try {
         setLoading(true)
         const data = await getWeatherData(lat, lon)
+        console.log(data)
         setWeatherData(data)
       } catch (error) {
         console.error('Error:', error)

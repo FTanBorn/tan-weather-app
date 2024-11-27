@@ -84,6 +84,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       className={className}
       sx={{ width: '100%' }}
       open={open}
+      size='small'
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       isOptionEqualToValue={(option: Location, value: Location) => option.id === value.id}

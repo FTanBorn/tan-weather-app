@@ -1,5 +1,19 @@
 // src/components/weather/WeatherIcon.tsx
-import { Box, useTheme } from '@mui/material'
+import { Box } from '@mui/material'
+
+import Cloudy from '@/public/lottie/cloudy.svg'
+import Thunderstorms from '@/public/lottie/thunderstorms.svg'
+import Rain from '@/public/lottie/rain.svg'
+import Snow from '@/public/lottie/snow.svg'
+import Sleet from '@/public/lottie/sleet.svg'
+import Fog from '@/public/lottie/fog.svg'
+import Wind from '@/public/lottie/wind.svg'
+import ClearNight from '@/public/lottie/clear-night.svg'
+import PartlyCloudyNight from '@/public/lottie/partly-cloudy-night.svg'
+import PartlyCloudyDay from '@/public/lottie/partly-cloudy-day.svg'
+import ClearDay from '@/public/lottie/clear-day.svg'
+import WindDay from '@/public/lottie/wind-day.svg'
+import { useTheme } from '@/providers/ThemeProvider'
 
 interface WeatherIconProps {
   condition: string
@@ -9,27 +23,27 @@ interface WeatherIconProps {
 }
 
 export const WeatherIcon = ({ condition, isNight = false, size = 100, animate = true }: WeatherIconProps) => {
-  const theme = useTheme()
-  const isDark = theme.palette.mode === 'dark'
+  const { mode } = useTheme()
 
   const getIconPath = (): string => {
     const conditionLower = condition.toLowerCase()
 
-    if (conditionLower.includes('clear') || conditionLower.includes('sunny')) {
-      return isNight ? '/lottie/clear-night.svg' : '/lottie/clear-day.svg'
+    // Türkçe durumları kontrol et
+    if (conditionLower.includes('açık') || conditionLower.includes('güneşli')) {
+      return mode === 'light' ? ClearNight.src : ClearDay.src
     }
-    if (conditionLower.includes('partly cloudy')) {
-      return isNight ? '/lottie/partly-cloudy-night.svg' : '/lottie/partly-cloudy-day.svg'
+    if (conditionLower.includes('parçalı bulutlu')) {
+      return mode === 'light' ? PartlyCloudyNight.src : PartlyCloudyDay.src
     }
-    if (conditionLower.includes('cloud')) return '/lottie/cloudy.svg'
-    if (conditionLower.includes('thunder')) return '/lottie/thunderstorms.svg'
-    if (conditionLower.includes('rain')) return '/lottie/rain.svg'
-    if (conditionLower.includes('snow')) return '/lottie/snow.svg'
-    if (conditionLower.includes('sleet')) return '/lottie/sleet.svg'
-    if (conditionLower.includes('fog') || conditionLower.includes('mist')) return '/lottie/fog.svg'
-    if (conditionLower.includes('wind')) return '/lottie/wind.svg'
+    if (conditionLower.includes('bulut')) return Cloudy.src
+    if (conditionLower.includes('gök gürültü') || conditionLower.includes('fırtına')) return Thunderstorms.src
+    if (conditionLower.includes('yağmur') || conditionLower.includes('sağanak')) return Rain.src
+    if (conditionLower.includes('kar')) return Snow.src
+    if (conditionLower.includes('karla karışık yağmur')) return Sleet.src
+    if (conditionLower.includes('sis') || conditionLower.includes('puslu')) return Fog.src
+    if (conditionLower.includes('rüzgar')) return Wind.src
 
-    return '/lottie/clear-day.svg'
+    return WindDay.src
   }
 
   return (
@@ -48,7 +62,6 @@ export const WeatherIcon = ({ condition, isNight = false, size = 100, animate = 
         style={{
           width: '100%',
           height: '100%',
-          filter: isDark ? 'invert(1)' : 'none',
           transition: 'transform 0.3s ease-in-out',
           ...(animate && {
             animation: 'weatherIconFloat 3s ease-in-out infinite'
