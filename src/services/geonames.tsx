@@ -27,16 +27,20 @@ const getLocationType = (type: string): LocationType | null => {
 export const searchLocations = async (query: string): Promise<Location[]> => {
   if (!query || query.length < 2) return []
 
-  const params = new URLSearchParams({
-    key: LOCATIONIQ_API_KEY,
-    q: query,
-    format: 'json',
-    limit: '10',
-    'accept-language': 'tr',
-    addressdetails: '1',
-    normalizecity: '1',
-    dedupe: '1'
-  })
+  const params = new URLSearchParams()
+
+  if (!LOCATIONIQ_API_KEY) {
+    throw new Error('LocationIQ API key is missing')
+  }
+
+  params.append('key', LOCATIONIQ_API_KEY)
+  params.append('q', query)
+  params.append('format', 'json')
+  params.append('limit', '10')
+  params.append('accept-language', 'tr')
+  params.append('addressdetails', '1')
+  params.append('normalizecity', '1')
+  params.append('dedupe', '1')
 
   try {
     const response = await fetch(`${BASE_URL}/autocomplete?${params}`)

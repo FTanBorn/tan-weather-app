@@ -1,24 +1,22 @@
-export interface LocationAddress {
-  city?: string
-  state?: string
-  country?: string
-}
+export type LocationType = 'country' | 'state' | 'town'
 
 export interface Location {
   id: string
   name: string
   fullName: string
-  type: string
+  type: LocationType
   lat: number
   lon: number
   displayName: string
-  address: LocationAddress
+  address: {
+    city?: string
+    state?: string
+    country?: string
+  }
 }
 
 export interface LocationSearchProps {
-  onLocationSelect?: (location: Location | null) => void
+  onLocationSelect?: (location: Location) => void
   placeholder?: string
   className?: string
 }
-
-export type LocationType = 'country' | 'state' | 'town'

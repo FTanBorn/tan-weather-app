@@ -117,10 +117,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
           }}
         />
       )}
-      renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option: Location) => {
-        const { key, ...otherProps } = props
+      renderOption={(props, option: Location) => {
+        // props'tan key'i çıkar ve kalanları spread et
+        const { children, ...otherProps } = props
         return (
-          <li key={key} {...otherProps}>
+          <li {...otherProps}>
             <Grid container alignItems='center' spacing={2}>
               <Grid item>
                 <LocationOn color='primary' />
@@ -132,13 +133,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
                 <Typography variant='body2' color='text.secondary'>
                   {[option.address.state, option.address.country].filter(Boolean).join(', ')}
                 </Typography>
-                <Typography
-                  variant='caption'
-                  sx={{
-                    color: 'primary.main',
-                    fontWeight: 500
-                  }}
-                >
+                <Typography variant='caption' sx={{ color: 'primary.main', fontWeight: 500 }}>
                   {getTypeLabel(option.type)}
                 </Typography>
               </Grid>
