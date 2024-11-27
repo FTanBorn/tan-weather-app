@@ -1,7 +1,6 @@
 // components/ForecastCard.tsx
-import { Card, CardContent, Typography, Box, useTheme, Grid } from '@mui/material'
+import { Card, CardContent, Typography, Box, Grid } from '@mui/material'
 import { WeatherIcon } from './WeatherIcon'
-import { WaterDrop, Air } from '@mui/icons-material'
 
 interface ForecastCardProps {
   forecast: {
@@ -18,7 +17,6 @@ interface ForecastCardProps {
 }
 
 export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
-  const theme = useTheme()
   const isNightTime = new Date().getHours() >= 18 || new Date().getHours() < 6
 
   return (

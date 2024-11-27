@@ -1,5 +1,6 @@
 // src/components/weather/WeatherIcon.tsx
 import { Box } from '@mui/material'
+import Image from 'next/image'
 
 import Cloudy from '@/public/lottie/cloudy.svg'
 import Thunderstorms from '@/public/lottie/thunderstorms.svg'
@@ -22,7 +23,7 @@ interface WeatherIconProps {
   animate?: boolean
 }
 
-export const WeatherIcon = ({ condition, isNight = false, size = 100, animate = true }: WeatherIconProps) => {
+export const WeatherIcon = ({ condition, size = 100, animate = true }: WeatherIconProps) => {
   const { mode } = useTheme()
 
   const getIconPath = (): string => {
@@ -49,6 +50,7 @@ export const WeatherIcon = ({ condition, isNight = false, size = 100, animate = 
   return (
     <Box
       sx={{
+        position: 'relative', // Image için gerekli
         width: size,
         height: size,
         display: 'flex',
@@ -56,11 +58,13 @@ export const WeatherIcon = ({ condition, isNight = false, size = 100, animate = 
         justifyContent: 'center'
       }}
     >
-      <img
+      <Image
         src={getIconPath()}
         alt={condition}
+        width={size} // Sabit boyut
+        height={size} // Sabit boyut
         style={{
-          width: '100%',
+          width: '100%', // Container'a göre ölçeklendirme
           height: '100%',
           transition: 'transform 0.3s ease-in-out',
           ...(animate && {

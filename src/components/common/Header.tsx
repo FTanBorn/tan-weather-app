@@ -8,12 +8,6 @@ import { alpha } from '@mui/material/styles'
 import { useTheme } from '@/providers/ThemeProvider'
 import Link from 'next/link'
 import LocationSearch from '../LocationSearch'
-import { Location } from '@/types/geonames'
-
-interface Page {
-  name: string
-  link: string
-}
 
 const Header = () => {
   const { toggleTheme, mode } = useTheme()

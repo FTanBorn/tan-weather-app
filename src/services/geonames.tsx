@@ -28,7 +28,7 @@ export const searchLocations = async (query: string): Promise<Location[]> => {
   if (!query || query.length < 2) return []
 
   const params = new URLSearchParams({
-    key: process.env.NEXT_PUBLIC_GEONAMES_KEY,
+    key: LOCATIONIQ_API_KEY,
     q: query,
     format: 'json',
     limit: '10',

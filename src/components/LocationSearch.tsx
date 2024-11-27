@@ -9,7 +9,6 @@ import { LocationOn } from '@mui/icons-material'
 import { debounce } from 'lodash'
 import { Location, LocationSearchProps, LocationType } from '@/types/geonames'
 import { searchLocations } from '@/services/geonames'
-import { AutocompleteRenderOptionState } from '@mui/material/Autocomplete/Autocomplete'
 import { useRouter } from 'next/navigation'
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
@@ -118,11 +117,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
           }}
         />
       )}
-      renderOption={(
-        props: React.HTMLAttributes<HTMLLIElement>,
-        option: Location,
-        state: AutocompleteRenderOptionState
-      ) => {
+      renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option: Location) => {
         const { key, ...otherProps } = props
         return (
           <li key={key} {...otherProps}>

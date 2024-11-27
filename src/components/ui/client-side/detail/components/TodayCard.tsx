@@ -68,7 +68,7 @@ export const TodayCard = ({ current, location, forecast }: TodayCardProps) => {
                 {Math.round(current.temp_c)}°C
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <WeatherIcon condition={current.condition.text} size={80} />
+                <WeatherIcon condition={current.condition.text} size={120} />
                 <Typography variant='h6'>{current.condition.text}</Typography>
               </Box>
               <Typography variant='body1' color='text.secondary'>
