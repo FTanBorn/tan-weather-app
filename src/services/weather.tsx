@@ -1,4 +1,5 @@
 // src/services/weather.ts
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WEATHER_API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY
 const BASE_URL = 'https://api.weatherapi.com/v1'
 
@@ -64,7 +65,7 @@ export const getCurrentDayWeather = async (lat: number, lon: number): Promise<Cu
     )
     if (!response.ok) throw new Error('Hava durumu bilgisi alınamadı')
     return await response.json()
-  } catch (error) {
+  } catch {
     throw new Error('Hava durumu verisi alınamadı')
   }
 }
@@ -87,7 +88,7 @@ export const getForecastWeather = async (lat: number, lon: number): Promise<Fore
         }
       }))
     }
-  } catch (error) {
+  } catch {
     throw new Error('Tahmin verisi alınamadı')
   }
 }
