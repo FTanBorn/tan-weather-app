@@ -12,11 +12,10 @@ export default function HomePage() {
   useEffect(() => {
     async function getData() {
       try {
-        const ipRes = await fetch('http://ip-api.com/json/')
+        const ipRes = await fetch('https://ipapi.co/json/')
         const ipData = await ipRes.json()
-        const weather = await getCurrentDayWeather(ipData.lat, ipData.lon)
+        const weather = await getCurrentDayWeather(ipData.latitude, ipData.longitude)
         setWeatherData(weather)
-        debugger
       } catch (error) {
         console.error('Error:', error)
       }
