@@ -65,7 +65,8 @@ export const getCurrentDayWeather = async (lat: number, lon: number): Promise<Cu
     )
     if (!response.ok) throw new Error('Hava durumu bilgisi alınamadı')
     return await response.json()
-  } catch {
+  } catch (error) {
+    console.error(error) // error'u kullandık
     throw new Error('Hava durumu verisi alınamadı')
   }
 }
@@ -88,7 +89,8 @@ export const getForecastWeather = async (lat: number, lon: number): Promise<Fore
         }
       }))
     }
-  } catch {
+  } catch (error) {
+    console.error(error) // error'u kullandık
     throw new Error('Tahmin verisi alınamadı')
   }
 }
