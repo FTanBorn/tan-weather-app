@@ -4,14 +4,26 @@
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Container, Grid, Box, CircularProgress } from '@mui/material'
-import { WeatherResponse, getWeatherData } from '@/services/weather'
-
-import { ForecastCard } from './components/ForecastCard'
+import { getCurrentDayWeather, type CurrentDayResponse } from '@/services/weather'
 import { TodayCard } from './components/TodayCard'
+import { ForecastCard } from './components/ForecastCard'
+
+interface WeatherDay {
+  date: string
+  day: {
+    maxtemp_c: number
+    mintemp_c: number
+    condition?: {
+      // condition'ı opsiyonel yap
+      text: string
+      icon: string
+    }
+  }
+}
 
 export default function DetailPage() {
   const searchParams = useSearchParams()
-  const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null)
+  const [weatherData, setWeatherData] = useState<CurrentDayResponse | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,8 +35,7 @@ export default function DetailPage() {
 
       try {
         setLoading(true)
-        const data = await getWeatherData(lat, lon)
-        console.log(data)
+        const data = await getCurrentDayWeather(lat, lon)
         setWeatherData(data)
       } catch (error) {
         console.error('Error:', error)
@@ -36,7 +47,7 @@ export default function DetailPage() {
     fetchData()
   }, [searchParams])
 
-  if (loading) {
+  if (loading || !weatherData) {
     return (
       <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
         <CircularProgress />
@@ -44,18 +55,23 @@ export default function DetailPage() {
     )
   }
 
-  if (!weatherData) return null
-
   return (
     <Container maxWidth='xl' sx={{ py: 4 }}>
-      {/* Ana hava durumu kartı */}
       <TodayCard current={weatherData.current} location={weatherData.location} forecast={weatherData.forecast} />
-
-      {/* Tahmin kartları */}
       <Grid container spacing={2}>
-        {weatherData.forecast.forecastday.slice(1).map((day, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={day.date}>
-            <ForecastCard forecast={day} index={index} />
+        {weatherData.forecast.forecastday.slice(1).map((forecastDay: WeatherDay, index: number) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={forecastDay.date}>
+            <ForecastCard
+              forecast={{
+                date: forecastDay.date,
+                day: {
+                  maxtemp_c: forecastDay.day.maxtemp_c,
+                  mintemp_c: forecastDay.day.mintemp_c,
+                  condition: forecastDay.day.condition || { text: '', icon: '' }
+                }
+              }}
+              index={index}
+            />
           </Grid>
         ))}
       </Grid>
