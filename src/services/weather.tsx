@@ -1,20 +1,8 @@
 // src/services/weather.ts
 const WEATHER_API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY
+const BASE_URL = 'https://api.weatherapi.com/v1'
 
-interface WeatherDay {
-  date: string
-  day: {
-    maxtemp_c: number
-    mintemp_c: number
-    condition: {
-      text: string
-      icon: string
-      code: number
-    }
-  }
-}
-
-export interface CurrentDayResponse {
+interface CurrentDayResponse {
   location: {
     name: string
     country: string
@@ -55,21 +43,29 @@ export interface CurrentDayResponse {
   }
 }
 
-export interface ForecastResponse {
-  forecastday: WeatherDay[]
+interface ForecastResponse {
+  forecastday: Array<{
+    date: string
+    day: {
+      maxtemp_c: number
+      mintemp_c: number
+      condition: {
+        text: string
+        icon: string
+      }
+    }
+  }>
 }
 
 export const getCurrentDayWeather = async (lat: number, lon: number): Promise<CurrentDayResponse> => {
   try {
     const response = await fetch(
-      `/api/weather/forecast.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&days=1&lang=tr&aqi=no`
+      `${BASE_URL}/forecast.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&days=1&lang=tr&aqi=no`
     )
-
     if (!response.ok) throw new Error('Hava durumu bilgisi alınamadı')
     return await response.json()
   } catch (error) {
     throw new Error('Hava durumu verisi alınamadı')
-    console.log(error)
   }
 }
 
@@ -93,6 +89,7 @@ export const getForecastWeather = async (lat: number, lon: number): Promise<Fore
     }
   } catch (error) {
     throw new Error('Tahmin verisi alınamadı')
-    console.log(error)
   }
 }
+
+export type { CurrentDayResponse, ForecastResponse }

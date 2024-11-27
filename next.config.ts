@@ -16,7 +16,7 @@ const nextConfig = {
     return [
       {
         source: '/api/weather/:path*',
-        destination: 'http://api.weatherapi.com/v1/:path*'
+        destination: 'https://api.weatherapi.com/v1/:path*'
       }
     ]
   },
