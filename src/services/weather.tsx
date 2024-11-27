@@ -1,6 +1,5 @@
 // src/services/weather.ts
 const WEATHER_API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY
-const BASE_URL = 'http://api.weatherapi.com/v1'
 
 interface WeatherDay {
   date: string
@@ -56,15 +55,16 @@ export interface CurrentDayResponse {
   }
 }
 
-interface ForecastResponse {
+export interface ForecastResponse {
   forecastday: WeatherDay[]
 }
 
 export const getCurrentDayWeather = async (lat: number, lon: number): Promise<CurrentDayResponse> => {
   try {
     const response = await fetch(
-      `${BASE_URL}/forecast.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&days=1&lang=tr&aqi=no`
+      `/api/weather/forecast.json?key=${WEATHER_API_KEY}&q=${lat},${lon}&days=1&lang=tr&aqi=no`
     )
+
     if (!response.ok) throw new Error('Hava durumu bilgisi alınamadı')
     return await response.json()
   } catch (error) {
