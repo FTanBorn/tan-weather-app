@@ -1,9 +1,8 @@
 // src/components/Header.tsx
 'use client'
 
-import { useState } from 'react'
-import { AppBar, Box, IconButton, Typography, Container, Button, Stack, Paper } from '@mui/material'
-import { Brightness4, Brightness7, Menu as MenuIcon } from '@mui/icons-material'
+import { AppBar, Box, IconButton, Typography, Container, Stack } from '@mui/material'
+import { Brightness4, Brightness7 } from '@mui/icons-material'
 import { alpha } from '@mui/material/styles'
 import { useTheme } from '@/providers/ThemeProvider'
 import Link from 'next/link'
@@ -11,7 +10,6 @@ import LocationSearch from '../LocationSearch'
 
 const Header = () => {
   const { toggleTheme, mode } = useTheme()
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   return (
     <AppBar
@@ -59,7 +57,7 @@ const Header = () => {
               width: '100%',
               maxWidth: 400,
               mx: 2,
-              display: { xs: 'block', md: 'block' } // Mobile'da gizle
+              display: 'block'
             }}
           >
             <LocationSearch />
@@ -70,56 +68,6 @@ const Header = () => {
             <IconButton onClick={toggleTheme} color='default'>
               {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
-          </Box>
-
-          {/* Mobile Navigation */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1 }}>
-            <Box sx={{ position: 'relative' }}>
-              <IconButton size='large' onClick={() => setShowMobileMenu(!showMobileMenu)} color='default'>
-                <MenuIcon />
-              </IconButton>
-              {showMobileMenu && (
-                <Paper
-                  elevation={4}
-                  sx={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '100%',
-                    mt: 1,
-                    minWidth: 200,
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    animation: 'dropdownFade 0.2s ease',
-                    '@keyframes dropdownFade': {
-                      from: { opacity: 0, transform: 'translateY(-10px)' },
-                      to: { opacity: 1, transform: 'translateY(0)' }
-                    }
-                  }}
-                >
-                  <Box sx={{ p: 1 }}>
-                    {/* Mobile'da arama kutusu */}
-                    <Box sx={{ mb: 2 }}>
-                      <LocationSearch />
-                    </Box>
-                    <Button
-                      fullWidth
-                      onClick={toggleTheme}
-                      startIcon={mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-                      sx={{
-                        justifyContent: 'flex-start',
-                        px: 2,
-                        py: 1,
-                        mt: 1,
-                        borderRadius: 1,
-                        '&:hover': { bgcolor: 'action.hover' }
-                      }}
-                    >
-                      {mode === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                    </Button>
-                  </Box>
-                </Paper>
-              )}
-            </Box>
           </Box>
         </Box>
       </Container>
