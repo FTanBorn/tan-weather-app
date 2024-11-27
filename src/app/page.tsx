@@ -12,10 +12,23 @@ export default function HomePage() {
   useEffect(() => {
     async function getData() {
       try {
-        const ipRes = await fetch('https://ipapi.co/json/')
-        const ipData = await ipRes.json()
-        const weather = await getCurrentDayWeather(ipData.latitude, ipData.longitude)
+        const defaultLat = 41.0477
+        const defaultLon = 28.9347
+
+        const weather = await getCurrentDayWeather(defaultLat, defaultLon)
         setWeatherData(weather)
+
+        // IP tabanlı konum bilgisi al
+        try {
+          const ipRes = await fetch('https://ipapi.co/json/')
+          const ipData = await ipRes.json()
+          if (ipData.latitude && ipData.longitude) {
+            const locationWeather = await getCurrentDayWeather(ipData.latitude, ipData.longitude)
+            setWeatherData(locationWeather)
+          }
+        } catch {
+          // IP konum hatası durumunda varsayılan değerleri kullanmaya devam et
+        }
       } catch (error) {
         console.error('Error:', error)
       }
