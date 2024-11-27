@@ -119,7 +119,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       )}
       renderOption={(props, option: Location) => {
         // props'tan key'i çıkar ve kalanları spread et
-        const { children, ...otherProps } = props
+        const { ...otherProps } = props
         return (
           <li {...otherProps}>
             <Grid container alignItems='center' spacing={2}>
