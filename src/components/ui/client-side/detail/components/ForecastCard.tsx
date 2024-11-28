@@ -65,8 +65,8 @@ export const ForecastCard = ({ forecast, index }: ForecastCardProps) => {
           </Grid>
 
           {/* Hava durumu ikonu */}
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
-            <WeatherIcon condition={forecast.day.condition.text} isNight={isNightTime} size={40} />
+          <Grid item xs={3}>
+            <WeatherIcon condition={forecast.day.condition.text} isNight={isNightTime} size={60} />
           </Grid>
 
           {/* Sıcaklık */}

@@ -147,6 +147,8 @@ export const TodayCard = ({ current, location, forecast }: TodayCardProps) => {
                       minWidth: 100,
                       p: 2,
                       textAlign: 'center',
+                      alignContent: 'center',
+                      justifyItems: 'center',
                       background: 'rgba(255,255,255,0.1)',
                       borderRadius: 2,
                       backdropFilter: 'blur(10px)',
