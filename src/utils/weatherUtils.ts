@@ -6,6 +6,15 @@ export const isLocationNightTime = (locationTime: string): boolean => {
   return hours >= 18 || hours < 6
 }
 
+// Türkçe karakterleri İngilizce karakterlere dönüştüren fonksiyon
+export const turkishToEnglish = (text: string): string => {
+  const turkishChars: { [key: string]: string } = {
+    'ı': 'i', 'ğ': 'g', 'ü': 'u', 'ş': 's', 'ö': 'o', 'ç': 'c',
+    'İ': 'I', 'Ğ': 'G', 'Ü': 'U', 'Ş': 'S', 'Ö': 'O', 'Ç': 'C'
+  };
+  return text.replace(/[ıİğĞüÜşŞöÖçÇ]/g, letter => turkishChars[letter] || letter);
+};
+
 export const getBackgroundStyles = (isNight: boolean) => {
   if (isNight) {
     return {

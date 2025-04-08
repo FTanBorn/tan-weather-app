@@ -1,4 +1,4 @@
-// src/app/detail/page.tsx
+// Detay sayfası bileşenini oluşturuyorum
 'use client'
 
 import { useSearchParams } from 'next/navigation'
@@ -26,6 +26,7 @@ export default function DetailPage() {
   const [weatherData, setWeatherData] = useState<CurrentDayResponse | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Sayfa yüklendiğinde hava durumu verilerini çekiyorum
   useEffect(() => {
     const fetchData = async () => {
       const lat = Number(searchParams.get('lat'))
@@ -47,6 +48,7 @@ export default function DetailPage() {
     fetchData()
   }, [searchParams])
 
+  // Yükleme durumunda loading gösteriyorum
   if (loading || !weatherData) {
     return (
       <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
@@ -57,7 +59,10 @@ export default function DetailPage() {
 
   return (
     <Container maxWidth='xl' sx={{ py: 4 }}>
+      {/* Bugünün Hava Durumu Kartı */}
       <TodayCard current={weatherData.current} location={weatherData.location} forecast={weatherData.forecast} />
+
+      {/* Tahmin Kartları */}
       <Grid container spacing={2}>
         {weatherData.forecast.forecastday.slice(1).map((forecastDay: WeatherDay, index: number) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={forecastDay.date}>

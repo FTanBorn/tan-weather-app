@@ -1,20 +1,24 @@
-// src/components/LocationSearch.tsx
+// Konum arama bileşenini oluşturuyorum
 'use client'
 
 import React, { useState, SyntheticEvent } from 'react'
-import { Autocomplete, TextField, Grid, Typography } from '@mui/material'
+import { Autocomplete, TextField, Grid, Typography, SxProps, Theme } from '@mui/material'
 import { AutocompleteInputChangeReason } from '@mui/material/useAutocomplete'
-import { Theme } from '@mui/material/styles'
 import { LocationOn } from '@mui/icons-material'
 import { debounce } from 'lodash'
 import { Location, LocationSearchProps, LocationType } from '@/types/geonames'
 import { searchLocations } from '@/services/geonames'
 import { useRouter } from 'next/navigation'
 
-const LocationSearch: React.FC<LocationSearchProps> = ({
+interface ExtendedLocationSearchProps extends LocationSearchProps {
+  sx?: SxProps<Theme>
+}
+
+const LocationSearch: React.FC<ExtendedLocationSearchProps> = ({
   onLocationSelect,
   placeholder = 'Şehir veya ilçe ara...',
-  className
+  className,
+  sx
 }) => {
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState<Location[]>([])
@@ -22,6 +26,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   const router = useRouter()
 
+  // Konum tipine göre etiket döndürüyorum
   const getTypeLabel = (type: LocationType): string => {
     switch (type) {
       case 'country':
@@ -35,6 +40,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     }
   }
 
+  // Arama işlemini gerçekleştiriyorum (300ms gecikme ile)
   const handleSearch = debounce(async (searchText: string) => {
     if (!searchText || searchText.length < 2) {
       setOptions([])
@@ -81,7 +87,10 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     <Autocomplete<Location, false, false, false>
       id='location-search'
       className={className}
-      sx={{ width: '100%' }}
+      sx={{
+        width: '100%',
+        ...sx
+      }}
       open={open}
       size='small'
       onOpen={() => setOpen(true)}
@@ -118,7 +127,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
         />
       )}
       renderOption={(props, option: Location) => {
-        // props'tan key'i çıkar ve kalanları spread et
+        // props'tan key'i çıkarıp diğer özellikleri yayıyorum
         const { ...otherProps } = props
         return (
           <li {...otherProps}>
